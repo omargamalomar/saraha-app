@@ -1,31 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./LogIn.module.css";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
-
-
+import {TokenContext} from '../../Context/tokenContext'
 
 export default function LogIn() {
-  let navigate = useNavigate;
+  let {setToken} = useContext(TokenContext)
+  let navigate = useNavigate();
   let [apiError, setApiError] = useState("")
   function login(values) {
     axios
       .post("https://sara7aiti.onrender.com/api/v1/user/signin", values)
       .then((data) => {
-        if(data.data.message == 'welcome'){
-          navigate('/profile')
+        if(data.data.message == "welcome"){
+            navigate("/profile")
+          localStorage.setItem('userToken', data.data.token)
+          setToken(data.data.token)
+
         }
-        console.log(data);
-        navigate("/login");
+        console.log(data.data);
       })
       .catch((err) => {
         console.log(err.response.data.error);
         setApiError(err.response.data.error)
       });
   }
-
 
   const validationSchema = Yup.object({
     email: Yup.string().email("invalid email").required("email require"),
@@ -53,7 +54,7 @@ export default function LogIn() {
 
   return (
     <div className="w-50 mx-auto my-5">
-      <h4 className="text-center">Register</h4>
+      <h4 className="text-center">Login</h4>
       {apiError? <div className="alert alert-danger">{apiError}</div> : ""}
       <form onSubmit={formik.handleSubmit}>
         <div className="form-group mb-2">
@@ -92,7 +93,7 @@ export default function LogIn() {
         </div>
         <button
           type="submit"
-          class="btn btn-default-outline mx-auto d-block  rounded"
+          className="btn btn-default-outline mx-auto d-block  rounded"
         >
           login
         </button>

@@ -142,7 +142,7 @@ export default function Register() {
         </div>
         <button
           type="submit"
-          class="btn btn-default-outline mx-auto d-block  rounded"
+          className="btn btn-default-outline mx-auto d-block  rounded"
         >
           Register
         </button>
