@@ -1,42 +1,46 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import "./App.css";
-import LayOut from "./components/LayOut/LayOut";
-import Home from "./components/Home/Home";
-import Register from "./components/Register/Register";
-import LogIn from "./components/LogIn/LogIn";
-import Profile from "./components/Profile/Profile";
-import SendMessage from "./components/SendMessage/SendMessage";
-import NotFound from "./components/NotFound/NotFound";
-import { useContext, useEffect } from "react";
-import { TokenContext } from "./Context/tokenContext";
-import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
-function App() {
-let{setToken}= useContext(TokenContext)
-useEffect(()=>{
-  if(localStorage.getItem("userToken")){
-    setToken(localStorage.getItem("userToken"))
-  }
-},[])
+import './App.css';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import Register from './components/authentication/register/Register';
+import Login from './components/authentication/login/Login';
+import Layout from './components/shared/layout/Layout';
+import Home from './components/app/home/Home';
+import RouteGuard from './components/guards/RouteGuard';
+import LandingPage from './components/shared/landing/LandingPage';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from './context/AuthContext';
+import SendMessage from './components/app/sendMessage/SendMessage';
 
+const queryClient = new QueryClient()
 
-  const routes = createBrowserRouter([
-    {
-      path: "",
-      element: <LayOut />,
-      children: [
-        {index:true, element: <Home /> },
-        { path: "register", element: <Register /> },
-        { path: "login", element: <LogIn /> },
-        { path: "profile", element: <ProtectedRoutes><Profile /> </ProtectedRoutes>},
-        { path: "message/:userId", element: <SendMessage /> },
-        { path: "*", element: <NotFound /> },
-      ],
+const router = createBrowserRouter([
+  {path: '', element: <Layout />, children: [
+    {index: true, element: <LandingPage />},
+    {path: 'register', element: <Register />},
+    {path: 'login', element: <Login />},
+    {path: 'home', element: <RouteGuard> 
+        <QueryClientProvider client={queryClient}>
+          <Home/> 
+        </QueryClientProvider>
+      </RouteGuard>
     },
-  ]);
-  return(
+    {path: 'sendmessage/:id', element: <SendMessage />}
+  ]}
+])
 
-    <RouterProvider router={routes}></RouterProvider>
-  )
+function App() {
+
+  const {checkIfLoggedIn} = useContext(AuthContext)
+
+  useEffect(() => {
+    checkIfLoggedIn()
+  }, [])
+
+  return (
+    <div className="App">
+      <RouterProvider router={router}></RouterProvider>
+    </div>
+  );
 }
 
 export default App;

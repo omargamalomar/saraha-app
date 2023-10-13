@@ -1,52 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Comic+Neue:ital,wght@1,300&family=Merriweather:ital,wght@1,300&family=Open+Sans:ital,wght@0,400;1,300&family=Oswald:wght@600&family=PT+Serif:ital,wght@0,700;1,400&family=Raleway:ital,wght@1,100;1,400&family=Roboto&family=Roboto+Condensed&display=swap');
+
 body {
-  background-color: #f5f8fa;
+  margin: 0;
+  font-family: 'Berkshire Swash', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.bg-custom {
-  background-color: black !important;
-  color: white !important;
-}
-
-.nav-link {
-  color: #fff !important;
-}
-
-.btn-default-outline {
-  color: #000 !important;
-  background-color: transparent;
-  border-color: #000;
-  width: 200px;
-  border-radius: 50px;
-}
-
-.btn-default-outline:hover {
-  color: #fff !important;
-  background-color: #000;
-  box-shadow: none;
-}
-
-.forgot:hover {
-  color: #000 !important;
-}
-
-.login {
-  color: #000;
-}
-
-.user-icon {
-  font-size: 60px;
-  color: #C0C0C0;
-}
-
-.avatar {
-  position: absolute;
-  top: 0%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
-}
-
-.share {
-  margin: 0px auto 10px auto;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
